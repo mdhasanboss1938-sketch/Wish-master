@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2a0a1f">
+<title>উইশ মাস্টার স্টুডিও</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Galada&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine:#2a0a1f;
+  --plum:#3b0f5c;
+  --card:rgba(46,9,44,.78);
+  --pink:#ff2d95;
+  --rose:#ff6fb0;
+  --gold:#f6c96b;
+  --cream:#ffe9f2;
+  --red:#e0194f;
+  --err:#ffb3c7;
+  --script:'Galada','Great Vibes',cursive;
+  --sans:'Hind Siliguri','Quicksand',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;}
+body{
+  font-family:var(--sans);color:var(--cream);
+  background:
+    radial-gradient(120% 60% at 50% -10%,#6a1457 0%,transparent 60%),
+    radial-gradient(90% 50% at 90% 100%,#4a0f6e 0%,transparent 60%),
+    linear-gradient(180deg,var(--wine),#1c0618 100%);
+  background-attachment:fixed;
+  min-height:100vh;min-height:100dvh;
+  display:flex;justify-content:center;
+  overflow-x:hidden;
+}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.hearts span{
+  position:absolute;bottom:-40px;left:var(--x);font-size:var(--s);
+  color:var(--c);opacity:0;filter:drop-shadow(0 0 6px var(--c));
+  animation:floatUp var(--d) linear var(--delay) infinite;will-change:transform,opacity;
+}
+@keyframes floatUp{
+  0%{transform:translate3d(0,0,0) rotate(-8deg);opacity:0}
+  10%{opacity:.8}
+  50%{transform:translate3d(18px,-55vh,0) rotate(8deg)}
+  90%{opacity:.6}
+  100%{transform:translate3d(-14px,-115vh,0) rotate(-6deg);opacity:0}
+}
+.phone{
+  position:relative;z-index:1;width:100%;max-width:440px;
+  padding:20px 16px calc(28px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;
+}
+.phone::before,.phone::after{
+  content:"❤";position:absolute;color:var(--pink);opacity:.55;font-size:14px;
+  text-shadow:0 0 8px var(--pink);pointer-events:none;
+}
+.phone::before{top:10px;left:12px;box-shadow:none}
+.phone::after{top:10px;right:12px}
+.steps{display:flex;justify-content:center;gap:8px;margin:2px 0 14px;min-height:10px}
+.steps i{width:8px;height:8px;border-radius:50%;background:rgba(255,111,176,.25);transition:.3s}
+.steps i.on{background:var(--pink);box-shadow:0 0 10px var(--pink);transform:scale(1.25)}
+.steps[hidden]{display:none}
+
+.screen{display:none;flex:1;flex-direction:column;align-items:center;text-align:center}
+.screen.active{display:flex;animation:enter .5s ease both}
+@keyframes enter{from{opacity:0;transform:scale(.97) translateY(10px)}to{opacity:1;transform:none}}
+
+.card{
+  width:100%;background:var(--card);border:1.5px solid var(--pink);border-radius:26px;
+  padding:26px 20px;box-shadow:0 0 18px rgba(255,45,149,.45),inset 0 0 22px rgba(255,45,149,.12);
+}
+h1,h2{font-family:var(--script);font-weight:400;color:var(--gold);margin:0 0 8px;
+  text-shadow:0 0 14px rgba(246,201,107,.55);line-height:1.45}
+h1{font-size:2.1rem}
+h2{font-size:1.8rem}
+h1:focus,h2:focus{outline:none}
+p{margin:0 0 14px;line-height:1.55}
+.lead{color:#ffd0e4;font-size:1.02rem}
+.small{font-size:.85rem;color:#e8b4cf}
+.name{color:var(--rose);font-weight:700}
+
+.avatar{
+  width:132px;height:132px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 18px;
+  border:3px solid var(--pink);background:#3b0f5c;
+  box-shadow:0 0 0 5px rgba(255,45,149,.15),0 0 26px rgba(255,45,149,.75);
+}
+.avatar.lg{width:150px;height:150px}
+.avatar.sm{width:96px;height:96px;margin-bottom:14px}
+
+.btn{
+  appearance:none;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:1.05rem;color:#fff;
+  min-height:50px;padding:12px 26px;border-radius:999px;
+  background:linear-gradient(135deg,var(--pink),var(--red));
+  box-shadow:0 0 18px rgba(255,45,149,.7);transition:transform .15s,box-shadow .2s;
+}
+.btn:hover{box-shadow:0 0 28px rgba(255,45,149,.95);transform:translateY(-2px)}
+.btn:active{transform:scale(.95)}
+.btn.ghost{background:transparent;border:1.5px solid var(--pink);box-shadow:0 0 10px rgba(255,45,149,.35)}
+.btn.block{width:100%}
+.btn.gold{background:linear-gradient(135deg,#f6c96b,#e59a2f);color:#3b0f1f;box-shadow:0 0 18px rgba(246,201,107,.6)}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.chip:focus-within{
+  outline:3px solid var(--gold);outline-offset:2px}
+a.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.row{display:flex;gap:10px;width:100%;margin-top:18px}
+.row .btn{flex:1;padding-inline:10px}
+.pulse{animation:pulse 1.4s ease-in-out infinite;display:inline-block}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.big-heart{font-size:5.5rem;filter:drop-shadow(0 0 18px var(--pink));margin-bottom:6px}
+
+form{width:100%;text-align:left}
+.field{margin-bottom:16px}
+label,.legend{display:block;font-weight:700;color:var(--gold);margin-bottom:6px;font-size:.95rem}
+input[type=text],textarea{
+  width:100%;font:inherit;color:var(--cream);background:rgba(20,4,24,.7);
+  border:1.5px solid rgba(255,111,176,.6);border-radius:14px;padding:13px 14px;
+}
+textarea{min-height:110px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#b985a3}
+[aria-invalid=true]{border-color:#ff5c8a!important;box-shadow:0 0 0 2px rgba(255,92,138,.3)}
+.err{color:var(--err);font-size:.85rem;margin-top:5px;min-height:1.1em}
+.count{float:right;font-weight:500;color:#e8b4cf;font-size:.8rem}
+.photo-pick{display:flex;align-items:center;gap:14px}
+.photo-pick .avatar{margin:0;width:84px;height:84px;flex:none}
+.file-btn{position:relative;overflow:hidden}
+.file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.chips{display:flex;flex-direction:column;gap:8px;border:0;padding:0;margin:0}
+.chips legend{padding:0}
+.chip{display:block;position:relative;border:1.5px solid rgba(255,111,176,.55);border-radius:14px;
+  padding:11px 14px;cursor:pointer;background:rgba(20,4,24,.55)}
+.chip input{position:absolute;opacity:0}
+.chip:has(input:checked){border-color:var(--pink);background:rgba(255,45,149,.2);box-shadow:0 0 12px rgba(255,45,149,.5)}
+.chip.inline{display:inline-block}
+.chips.h{flex-direction:row;flex-wrap:wrap}
+
+.banner{font-size:.8rem;color:var(--gold);border:1px dashed var(--gold);border-radius:999px;
+  padding:5px 12px;margin-bottom:14px}
+.question{font-family:var(--script);font-size:1.9rem;color:var(--gold);margin:6px 0 20px;
+  text-shadow:0 0 14px rgba(246,201,107,.6);line-height:1.5}
+.choices{position:relative;display:flex;align-items:center;justify-content:center;gap:16px;min-height:96px;flex-wrap:wrap}
+#yesBtn{transition:transform .25s}
+#noBtn{transition:transform .25s}
+.quote{font-size:1.1rem;line-height:1.85;color:#ffe3ef;white-space:pre-wrap;word-break:break-word;margin:6px 0 10px}
+.sig{font-family:var(--script);font-size:1.6rem;color:var(--gold);margin:0}
+.share{margin-top:22px;width:100%;display:flex;flex-direction:column;gap:10px}
+.share .row{margin:0}
+.linkbox{width:100%;font-size:.75rem;color:#e8b4cf;word-break:break-all;max-height:3.4em;overflow:hidden;
+  border:1px solid rgba(255,111,176,.35);border-radius:10px;padding:8px;text-align:left}
+.warn{color:var(--gold);font-size:.82rem;text-align:left}
+.fall{position:fixed;top:-40px;z-index:5;pointer-events:none;font-size:var(--s);left:var(--x);
+  animation:fall var(--d) linear var(--delay) forwards;will-change:transform}
+@keyframes fall{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--r))}}
+.burst{animation:burst .9s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes burst{from{transform:scale(0) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+.glow{animation:glow 2.2s ease-in-out infinite}
+@keyframes glow{0%,100%{text-shadow:0 0 10px rgba(246,201,107,.5)}50%{text-shadow:0 0 26px rgba(246,201,107,1),0 0 40px rgba(255,45,149,.6)}}
+.late{opacity:0;animation:enter .6s ease 1.8s forwards}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
+  background:var(--pink);color:#fff;font-weight:700;padding:11px 20px;border-radius:999px;opacity:0;
+  transition:.3s;z-index:20;pointer-events:none;box-shadow:0 0 18px rgba(255,45,149,.8)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .hearts{display:none}
+}
+</style>
+</head>
+<body>
+<div class="hearts" id="hearts" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<main class="phone">
+  <div class="steps" id="steps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+  <!-- 0. Home -->
+  <section class="screen" id="s-home" aria-labelledby="t-home">
+    <div class="card">
+      <img class="avatar lg" id="homeAvatar" alt="সাজানো হৃদয়ের ছবি">
+      <h1 id="t-home" tabindex="-1">উইশ মাস্টার স্টুডিও</h1>
+      <p class="lead">জন্মদিন, ভালোবাসা, ঈদ বা যেকোনো উপলক্ষে আপনার ছবি আর আপনার কথা দিয়ে বানান নিজের উইশ।</p>
+      <p class="small">নাম ও বার্তা লিখুন, প্রিভিউ দেখুন, তারপর লিঙ্কটি শেয়ার করুন।</p>
+      <button class="btn block" id="startBtn" type="button">উইশ বানান <span class="pulse">❤</span></button>
+    </div>
+  </section>
+
+  <!-- 1. Form -->
+  <section class="screen" id="s-form" aria-labelledby="t-form">
+    <div class="card">
+      <h2 id="t-form" tabindex="-1">আপনার তথ্য</h2>
+      <form id="wishForm" novalidate>
+        <div class="field">
+          <label for="sender">আপনার নাম</label>
+          <input type="text" id="sender" maxlength="30" autocomplete="given-name" aria-describedby="e-sender" placeholder="যেমন: অর্জুন">
+          <div class="err" id="e-sender"></div>
+        </div>
+        <div class="field">
+          <label for="phone">আপনার যোগাযোগ নম্বর</label>
+          <input type="text" id="phone" inputmode="tel" autocomplete="tel" maxlength="20" aria-describedby="e-phone" placeholder="যেমন: +8801XXXXXXXXX">
+          <div class="err" id="e-phone"></div>
+        </div>
+        <fieldset class="field" style="border:0;padding:0;margin:0 0 16px">
+          <legend class="legend" style="padding:0">সোশ্যাল মিডিয়া (ঐচ্ছিক)</legend>
+          <p class="small" style="margin:0 0 10px">ইউজারনেম বা প্রোফাইল লিঙ্ক দিন। না দিলেও চলবে।</p>
+          <label for="fb" style="font-weight:600">ফেসবুক</label>
+          <input type="text" id="fb" maxlength="120" autocapitalize="none" aria-describedby="e-fb" placeholder="ইউজারনেম বা লিঙ্ক">
+          <div class="err" id="e-fb"></div>
+          <label for="ms" style="font-weight:600">মেসেঞ্জার</label>
+          <input type="text" id="ms" maxlength="120" autocapitalize="none" aria-describedby="e-ms" placeholder="ইউজারনেম বা লিঙ্ক">
+          <div class="err" id="e-ms"></div>
+          <label for="tt" style="font-weight:600">টিকটক</label>
+          <input type="text" id="tt" maxlength="120" autocapitalize="none" aria-describedby="e-tt" placeholder="@ইউজারনেম বা লিঙ্ক">
+          <div class="err" id="e-tt"></div>
+        </fieldset>
+        <div class="field">
+          <label for="receiver">তাঁর নাম</label>
+          <input type="text" id="receiver" maxlength="30" aria-describedby="e-receiver" placeholder="যেমন: প্রিয়া">
+          <div class="err" id="e-receiver"></div>
+        </div>
+        <div class="field">
+          <span class="legend">প্রোফাইল ছবি (ঐচ্ছিক)</span>
+          <div class="photo-pick">
+            <img class="avatar" id="photoPreview" alt="ছবির প্রিভিউ">
+            <div>
+              <span class="btn ghost file-btn">ছবি বাছুন
+                <input type="file" id="photo" accept="image/*" aria-label="প্রোফাইল ছবি বাছুন" aria-describedby="e-photo">
+              </span>
+              <div><button class="small" id="removePhoto" type="button" style="background:none;border:0;color:var(--rose);text-decoration:underline;padding:8px 0;font:inherit;cursor:pointer" hidden>ছবি সরান</button></div>
+            </div>
+          </div>
+          <div class="err" id="e-photo"></div>
+        </div>
+        <div class="field">
+          <label for="message">আপনার বার্তা <span class="count" id="msgCount">0/300</span></label>
+          <textarea id="message" maxlength="300" aria-describedby="e-message" placeholder="শেষে তিনি যা পড়বেন, তা এখানে লিখুন"></textarea>
+          <div class="err" id="e-message"></div>
+        </div>
+        <fieldset class="field chips h">
+          <legend class="legend">উপলক্ষ বাছুন</legend>
+          <div id="occGroups" style="width:100%"></div>
+        </fieldset>
+        <fieldset class="field chips h">
+          <legend class="legend">সারপ্রাইজ ইফেক্ট</legend>
+          <label class="chip inline"><input type="radio" name="e" value="auto" checked> ✨ উপলক্ষ অনুযায়ী</label>
+          <label class="chip inline"><input type="radio" name="e" value="roses"> 🌹 গোলাপ</label>
+          <label class="chip inline"><input type="radio" name="e" value="hearts"> ❤ হৃদয়</label>
+          <label class="chip inline"><input type="radio" name="e" value="both"> দুটোই</label>
+        </fieldset>
+        <div class="row">
+          <button class="btn ghost" type="button" data-go="s-home">পিছনে</button>
+          <button class="btn" type="submit">প্রিভিউ</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 2. Preview -->
+  <section class="screen" id="s-preview" aria-labelledby="t-preview">
+    <div class="card">
+      <img class="avatar" id="pvAvatar" alt="প্রোফাইল ছবি">
+      <h2 id="t-preview" tabindex="-1">প্রিভিউ</h2>
+      <p class="lead">প্রেরক: <span class="name" id="pvSender"></span><br>প্রাপক: <span class="name" id="pvReceiver"></span></p>
+      <p class="small">উপলক্ষ</p>
+      <p class="name" id="pvQuestion"></p>
+      <p class="small">যোগাযোগ নম্বর</p>
+      <p class="name" id="pvPhone"></p>
+      <div id="pvSocialBox" hidden>
+        <p class="small">সোশ্যাল মিডিয়া</p>
+        <p class="name" id="pvSocial"></p>
+      </div>
+      <p class="small">বার্তা</p>
+      <p class="quote" id="pvMessage"></p>
+      <div class="share" id="sharePanel">
+        <p class="small" style="margin:0"><span id="shareName"></span>-কে এই উইশটি পাঠান</p>
+        <div class="linkbox" id="linkBox"></div>
+        <div class="warn" id="fileWarn" hidden>এই পেজটি আপনার ফোন থেকে খোলা, তাই লিঙ্কটি শুধু এখানেই কাজ করবে। অন্যদের জন্য কাজ করে এমন লিঙ্ক পেতে index.html ফাইলটি একটি ওয়েব হোস্টে (যেমন GitHub Pages বা Netlify) আপলোড করে সেখান থেকে খুলুন।</div>
+        <button class="btn block" id="copyBtn" type="button">লিঙ্ক কপি করুন</button>
+        <div class="row">
+          <button class="btn ghost" id="waBtn" type="button">হোয়াটসঅ্যাপ</button>
+          <button class="btn ghost" id="tgBtn" type="button">টেলিগ্রাম</button>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn ghost" type="button" data-go="s-form">সম্পাদনা</button>
+        <button class="btn" type="button" id="toAsk">চেষ্টা করুন</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Ask -->
+  <section class="screen" id="s-ask" aria-labelledby="t-ask">
+    <div class="card">
+      <div class="banner" id="askBanner">প্রিভিউ: তিনি ঠিক এটাই দেখবেন</div>
+      <img class="avatar lg" id="askAvatar" alt="প্রোফাইল ছবি">
+      <h2 id="t-ask" tabindex="-1"></h2>
+      <p class="lead" id="askSub"></p>
+      <div class="question" id="askQuestion"></div>
+      <div class="choices" id="choices">
+        <button class="btn" id="yesBtn" type="button">হ্যাঁ ❤</button>
+        <button class="btn ghost" id="noBtn" type="button">না</button>
+      </div>
+      <div class="row" id="askNav">
+        <button class="btn ghost" type="button" data-go="s-preview">আগের ধাপ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Surprise -->
+  <section class="screen" id="s-surprise" aria-labelledby="t-surprise">
+    <div class="card">
+      <div class="big-heart burst"><span class="pulse" id="surpriseIcon">💖</span></div>
+      <h1 id="t-surprise" class="glow" tabindex="-1"></h1>
+      <p class="lead" id="surpriseSub"></p>
+      <div class="late">
+        <button class="btn gold block" id="toFinal" type="button">বার্তাটি খুলুন</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Final -->
+  <section class="screen" id="s-final" aria-labelledby="t-final">
+    <div class="card">
+      <img class="avatar sm" id="finAvatar" alt="প্রোফাইল ছবি">
+      <h2 id="t-final" tabindex="-1"></h2>
+      <p class="quote" id="finMessage"></p>
+      <p class="sig" id="finSig"></p>
+      <div id="contactBox" hidden style="margin-top:18px">
+        <p class="small" style="margin-bottom:4px">যোগাযোগ করুন</p>
+        <p class="name" id="finPhone" style="margin-bottom:10px"></p>
+        <div class="row" style="margin-top:0">
+          <a class="btn ghost" id="callBtn" href="#">কল করুন</a>
+          <a class="btn ghost" id="waChat" href="#" target="_blank" rel="noopener">হোয়াটসঅ্যাপ</a>
+        </div>
+        <p class="small" id="socialLabel" style="margin:16px 0 0" hidden>সোশ্যাল মিডিয়ায় পাবেন</p>
+        <div class="row" id="socialRow" style="margin-top:8px;flex-wrap:wrap"></div>
+      </div>
+
+      <div id="creatorPanel">
+        <button class="btn ghost block" type="button" data-go="s-preview">প্রিভিউতে ফিরুন</button>
+      </div>
+      <div id="viewerPanel" hidden>
+        <button class="btn block" id="makeOwn" type="button">নিজের উইশ বানান</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Error -->
+  <section class="screen" id="s-error" aria-labelledby="t-error">
+    <div class="card">
+      <div class="big-heart">💔</div>
+      <h2 id="t-error" tabindex="-1">লিঙ্কটি কাজ করছে না</h2>
+      <p class="lead">উইশের তথ্য নেই বা নষ্ট হয়ে গেছে। প্রেরককে আবার লিঙ্কটি পাঠাতে বলুন।</p>
+      <button class="btn block" id="errHome" type="button">নিজের উইশ বানান</button>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const screens = [...document.querySelectorAll('.screen')];
+const stepsEl = $('#steps');
+const OCCASIONS = [
+  { icon: '💖', label: 'প্রেম নিবেদন', group: 'প্রেম ও সম্পর্ক', ask: 'তুমি কি আমার হবে?' },
+  { icon: '💍', label: 'বিয়ের প্রস্তাব', group: 'প্রেম ও সম্পর্ক', ask: 'তুমি কি আমাকে বিয়ে করবে?' },
+  { icon: '🥺', label: 'ক্ষমা চাওয়া', group: 'প্রেম ও সম্পর্ক', ask: 'তুমি কি আমাকে ক্ষমা করবে?', yes: r => r + ' ক্ষমা করে দিয়েছেন!' },
+  { icon: '🎂', label: 'জন্মদিন', group: 'বিশেষ দিন', title: r => 'শুভ জন্মদিন, ' + r + '!', glyphs: ['🎈', '🎉', '🎂', '🎁', '✨'] },
+  { icon: '💑', label: 'বার্ষিকী', group: 'বিশেষ দিন', title: r => 'শুভ বার্ষিকী, ' + r + '!', glyphs: ['💍', '❤', '🌹', '✨', '💞'] },
+  { icon: '🌙', label: 'ঈদ মোবারক', group: 'উৎসব', title: r => 'ঈদ মোবারক, ' + r + '!', glyphs: ['🌙', '⭐', '✨', '🕌', '🌸'] },
+  { icon: '🎆', label: 'শুভ নববর্ষ', group: 'উৎসব', title: r => 'শুভ নববর্ষ, ' + r + '!', glyphs: ['🎆', '🎉', '✨', '🎊', '🌟'] },
+  { icon: '🙏', label: 'ধন্যবাদ', group: 'শুভকামনা', title: r => 'ধন্যবাদ, ' + r + '!', glyphs: ['💐', '🌸', '✨', '💖', '🌼'] },
+  { icon: '🌹', label: 'ভালোবাসা দিবস', group: 'প্রেম ও সম্পর্ক', title: r => 'ভালোবাসা দিবসের শুভেচ্ছা, ' + r + '!', glyphs: ['❤', '🌹', '💘', '💕', '💌'] },
+  { icon: '💌', label: 'ভালোবাসি তোমাকে', group: 'প্রেম ও সম্পর্ক', title: r => r + ', ভালোবাসি তোমাকে!', glyphs: ['💖', '💗', '💕', '💌', '❤'] },
+  { icon: '🥹', label: 'মিস ইউ', group: 'প্রেম ও সম্পর্ক', title: r => r + ', তোমাকে খুব মিস করছি!', glyphs: ['💖', '💗', '🌙', '✨', '💌'] },
+  { icon: '💐', label: 'বিয়ের শুভেচ্ছা', group: 'বিশেষ দিন', title: r => 'শুভ বিবাহ, ' + r + '!', glyphs: ['💐', '💍', '🌸', '✨', '🎊'] },
+  { icon: '🏆', label: 'অভিনন্দন', group: 'শুভকামনা', title: r => 'অভিনন্দন, ' + r + '!', glyphs: ['🎉', '🏆', '🎊', '✨', '🌟'] },
+  { icon: '🌼', label: 'সুস্থ হয়ে ওঠো', group: 'শুভকামনা', title: r => 'দ্রুত সুস্থ হয়ে ওঠো, ' + r + '!', glyphs: ['🌼', '💐', '🌿', '💖', '✨'] },
+  { icon: '🍀', label: 'শুভকামনা', group: 'শুভকামনা', title: r => 'শুভকামনা, ' + r + '!', glyphs: ['🍀', '⭐', '✨', '🌟', '💫'] },
+  { icon: '🌷', label: 'মা দিবস', group: 'বিশেষ দিন', title: r => 'মা দিবসের শুভেচ্ছা, ' + r + '!', glyphs: ['🌷', '🌸', '💖', '🌺', '✨'] },
+  { icon: '👨', label: 'বাবা দিবস', group: 'বিশেষ দিন', title: r => 'বাবা দিবসের শুভেচ্ছা, ' + r + '!', glyphs: ['⭐', '🌟', '💙', '✨', '🏅'] },
+  { icon: '🤝', label: 'বন্ধুত্ব দিবস', group: 'বিশেষ দিন', title: r => 'শুভ বন্ধুত্ব দিবস, ' + r + '!', glyphs: ['🤝', '💛', '🌈', '✨', '🎈'] },
+  { icon: '🌺', label: 'পহেলা বৈশাখ', group: 'উৎসব', title: r => 'শুভ পহেলা বৈশাখ, ' + r + '!', glyphs: ['🌺', '🌼', '🎊', '✨', '🌟'] },
+  { icon: '🌸', label: 'শারদীয়া শুভেচ্ছা', group: 'উৎসব', title: r => 'শারদীয়া শুভেচ্ছা, ' + r + '!', glyphs: ['🌺', '🌸', '✨', '🎊', '🌼'] },
+  { icon: '🕌', label: 'রমজান মোবারক', group: 'উৎসব', title: r => 'রমজান মোবারক, ' + r + '!', glyphs: ['🌙', '⭐', '✨', '🕌', '🌟'] },
+  { icon: '🎄', label: 'বড়দিন', group: 'উৎসব', title: r => 'শুভ বড়দিন, ' + r + '!', glyphs: ['🎄', '⭐', '🎁', '✨', '🌟'] },
+  { icon: '✈️', label: 'শুভ যাত্রা', group: 'শুভকামনা', title: r => 'শুভ যাত্রা, ' + r + '!', glyphs: ['✈️', '🌍', '⭐', '✨', '💫'] },
+  { icon: '🌙', label: 'শুভ রাত্রি', group: 'শুভকামনা', title: r => 'শুভ রাত্রি, ' + r + '!', glyphs: ['🌙', '⭐', '✨', '💫', '💤'] },
+  { icon: '🌞', label: 'শুভ সকাল', group: 'শুভকামনা', title: r => 'শুভ সকাল, ' + r + '!', glyphs: ['🌞', '🌼', '🌸', '✨', '☕'] }
+];
+const LEGACY_Q = [0, 2, 1]; // old links stored q: 0 mine, 1 forgive, 2 marry
+const EFFECTS = ['roses', 'hearts', 'both', 'auto'];
+const STEP_INDEX = { 's-home': 0, 's-form': 1, 's-preview': 2, 's-ask': 3, 's-surprise': 4, 's-final': 5 };
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const DEFAULT_AVATAR = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#3b0f5c"/>' +
+  '<path d="M50 78C20 56 22 30 38 28c8-1 12 4 12 8 0-4 4-9 12-8 16 2 18 28-12 50z" fill="#ff2d95"/></svg>');
+
+const PHONE_RE = /^\+?[0-9]{7,15}$/;
+const USER_RE = /^[A-Za-z0-9._-]{1,50}$/;
+const SOCIAL = { fb: 'ফেসবুক', ms: 'মেসেঞ্জার', tt: 'টিকটক' };
+const SOCIAL_ICON = { fb: '📘', ms: '💬', tt: '🎵' };
+const SOC_HOSTS = { fb: ['facebook.com', 'fb.com', 'fb.me'], ms: ['m.me', 'messenger.com', 'facebook.com'], tt: ['tiktok.com'] };
+// Returns '' (empty), a clean username, or null (invalid).
+function parseSocial(kind, raw) {
+  let v = raw.trim();
+  if (!v) return '';
+  if (v.includes('/')) {
+    let u;
+    try { u = new URL(/^https?:/i.test(v) ? v : 'https://' + v); } catch (_) { return null; }
+    const h = u.hostname.toLowerCase();
+    if (!SOC_HOSTS[kind].some(x => h === x || h.endsWith('.' + x))) return null;
+    const seg = u.pathname.split('/').filter(Boolean);
+    v = seg[0] === 'profile.php' ? (u.searchParams.get('id') || '') : (seg[0] || '');
+  }
+  v = v.replace(/^@/, '');
+  return USER_RE.test(v) ? v : null;
+}
+function socialUrl(kind, v) {
+  const e = encodeURIComponent(v);
+  if (kind === 'fb') return /^\d+$/.test(v) ? 'https://www.facebook.com/profile.php?id=' + e : 'https://www.facebook.com/' + e;
+  if (kind === 'ms') return 'https://m.me/' + e;
+  return 'https://www.tiktok.com/@' + e;
+}
+const state = { social: { fb: '', ms: '', tt: '' }, sender: '', phone: '', receiver: '', message: '', o: 0, effect: 'auto', photo: null, mode: 'create' };
+
+/* ---------- Occasion picker (built from OCCASIONS) ---------- */
+(function buildOccasions() {
+  const root = $('#occGroups');
+  ['প্রেম ও সম্পর্ক', 'বিশেষ দিন', 'উৎসব', 'শুভকামনা'].forEach(g => {
+    const wrap = document.createElement('div');
+    const h = document.createElement('p');
+    h.className = 'small'; h.style.margin = '8px 0 8px'; h.textContent = g;
+    const box = document.createElement('div');
+    box.className = 'chips h';
+    OCCASIONS.forEach((o, i) => {
+      if (o.group !== g) return;
+      const l = document.createElement('label');
+      l.className = 'chip inline';
+      const r = document.createElement('input');
+      r.type = 'radio'; r.name = 'o'; r.value = String(i);
+      if (i === 0) r.checked = true;
+      l.append(r, ' ' + o.icon + ' ' + o.label);
+      box.appendChild(l);
+    });
+    wrap.append(h, box);
+    root.appendChild(wrap);
+  });
+})();
+
+/* ---------- Floating hearts background ---------- */
+(function makeHearts() {
+  const box = $('#hearts');
+  const colors = ['#ff2d95', '#ff6fb0', '#e0194f', '#b455ff'];
+  const glyphs = ['❤', '♥', '❤', '🌹'];
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('span');
+    s.textContent = glyphs[i % glyphs.length];
+    s.style.setProperty('--x', Math.random() * 100 + '%');
+    s.style.setProperty('--s', 12 + Math.random() * 20 + 'px');
+    s.style.setProperty('--c', colors[i % colors.length]);
+    s.style.setProperty('--d', 9 + Math.random() * 9 + 's');
+    s.style.setProperty('--delay', -Math.random() * 14 + 's');
+    box.appendChild(s);
+  }
+})();
+
+/* ---------- Screen navigation ---------- */
+function show(id) {
+  screens.forEach(s => s.classList.toggle('active', s.id === id));
+  const idx = STEP_INDEX[id];
+  const showSteps = state.mode === 'create' && idx !== undefined;
+  stepsEl.hidden = !showSteps;
+  [...stepsEl.children].forEach((d, i) => d.classList.toggle('on', i === idx));
+  window.scrollTo(0, 0);
+  const h = document.querySelector('#' + id + ' [tabindex="-1"]');
+  if (h) h.focus({ preventScroll: true });
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]');
+  if (b) show(b.dataset.go);
+});
+
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ---------- Form ---------- */
+const f = {
+  sender: $('#sender'), phone: $('#phone'), fb: $('#fb'), ms: $('#ms'), tt: $('#tt'), receiver: $('#receiver'), message: $('#message'),
+  photo: $('#photo'), preview: $('#photoPreview'), remove: $('#removePhoto')
+};
+f.preview.src = DEFAULT_AVATAR;
+$('#homeAvatar').src = DEFAULT_AVATAR;
+
+f.message.addEventListener('input', () => { $('#msgCount').textContent = f.message.value.length + '/300'; });
+
+function setErr(key, msg) {
+  const input = f[key] || $('#' + key);
+  const e = $('#e-' + key);
+  if (e) e.textContent = msg || '';
+  if (input && input.setAttribute) {
+    if (msg) input.setAttribute('aria-invalid', 'true'); else input.removeAttribute('aria-invalid');
+  }
+}
+['sender', 'phone', 'fb', 'ms', 'tt', 'receiver', 'message'].forEach(k => f[k].addEventListener('input', () => setErr(k, '')));
+
+f.photo.addEventListener('change', () => {
+  const file = f.photo.files && f.photo.files[0];
+  setErr('photo', '');
+  if (!file) return;
+  if (!/^image\/(jpeg|png|webp|gif|heic|heif)$/i.test(file.type)) {
+    setErr('photo', 'JPG, PNG, WebP বা GIF ছবি বাছুন।');
+    f.photo.value = ''; return;
+  }
+  if (file.size > 12 * 1024 * 1024) {
+    setErr('photo', 'ছবিটি ১২ MB-এর বেশি। ছোট ছবি বাছুন।');
+    f.photo.value = ''; return;
+  }
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    // Re-draw to a small square JPEG: strips metadata and keeps the share link short.
+    const size = 112, c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    const side = Math.min(img.naturalWidth, img.naturalHeight);
+    const sx = (img.naturalWidth - side) / 2, sy = (img.naturalHeight - side) / 2;
+    ctx.fillStyle = '#3b0f5c'; ctx.fillRect(0, 0, size, size);
+    ctx.drawImage(img, sx, sy, side, side, 0, 0, size, size);
+    state.photo = cleanJpeg(c.toDataURL('image/jpeg', 0.5));
+    f.preview.src = state.photo;
+    f.remove.hidden = false;
+    URL.revokeObjectURL(url);
+  };
+  img.onerror = () => {
+    URL.revokeObjectURL(url);
+    setErr('photo', 'ছবিটি পড়া যায়নি। অন্য একটি ছবি চেষ্টা করুন।');
+    f.photo.value = '';
+  };
+  img.src = url;
+});
+f.remove.addEventListener('click', () => {
+  state.photo = null; f.photo.value = ''; f.preview.src = DEFAULT_AVATAR; f.remove.hidden = true;
+});
+
+$('#wishForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const sender = f.sender.value.trim(), receiver = f.receiver.value.trim(), message = f.message.value.trim();
+  const phone = f.phone.value.replace(/[০-৯]/g, d => '০১২৩৪৫৬৭৮৯'.indexOf(d)).replace(/[\s\-()]/g, '');
+  let first = null;
+  const check = (key, ok, msg) => { setErr(key, ok ? '' : msg); if (!ok && !first) first = f[key]; };
+  check('sender', sender.length > 0, 'আপনার নাম লিখুন।');
+  check('phone', PHONE_RE.test(phone), 'সঠিক নম্বর লিখুন, যেমন +8801XXXXXXXXX।');
+  const social = {};
+  Object.keys(SOCIAL).forEach(k => {
+    const v = parseSocial(k, f[k].value);
+    social[k] = v || '';
+    check(k, v !== null, 'সঠিক ইউজারনেম বা ' + SOCIAL[k] + ' লিঙ্ক দিন।');
+  });
+  check('receiver', receiver.length > 0, 'তাঁর নাম লিখুন।');
+  check('message', message.length > 0, 'একটি বার্তা লিখুন।');
+  if (first) { first.focus(); return; }
+  state.sender = sender; state.phone = phone; state.social = social; state.receiver = receiver; state.message = message;
+  state.o = +document.querySelector('input[name=o]:checked').value;
+  state.effect = document.querySelector('input[name=e]:checked').value;
+  fillPreview();
+  show('s-preview');
+});
+
+/* ---------- Fill screens (textContent only: no HTML injection) ---------- */
+const avatarSrc = () => state.photo || DEFAULT_AVATAR;
+
+function fillPreview() {
+  $('#pvAvatar').src = avatarSrc();
+  $('#pvSender').textContent = state.sender;
+  $('#pvReceiver').textContent = state.receiver;
+  $('#pvPhone').textContent = state.phone;
+  const socialText = Object.keys(SOCIAL).filter(k => state.social[k]).map(k => SOCIAL[k] + ': ' + state.social[k]).join('، ');
+  $('#pvSocial').textContent = socialText;
+  $('#pvSocialBox').hidden = !socialText;
+  buildShare();
+  const occ = OCCASIONS[state.o];
+  $('#pvQuestion').textContent = occ.icon + ' ' + occ.label + (occ.ask ? ': ' + occ.ask : '');
+  $('#pvMessage').textContent = state.message;
+}
+
+let noCount = 0;
+const NO_TEXT = ['না', 'সত্যিই?', 'আবার ভাবুন', 'প্লিজ?', 'প্লিজ প্লিজ?'];
+function fillAsk() {
+  noCount = 0;
+  const no = $('#noBtn'), yes = $('#yesBtn');
+  no.hidden = false; no.textContent = NO_TEXT[0]; no.style.transform = '';
+  yes.style.transform = '';
+  $('#askAvatar').src = avatarSrc();
+  $('#t-ask').textContent = state.receiver;
+  const occ = OCCASIONS[state.o], isAsk = !!occ.ask;
+  const viewer = state.mode === 'view';
+  no.hidden = !isAsk;
+  yes.textContent = isAsk ? 'হ্যাঁ ❤' : '🎁 সারপ্রাইজ খুলুন';
+  $('#askQuestion').textContent = isAsk ? occ.ask : occ.icon + ' আপনার জন্য একটি সারপ্রাইজ আছে!';
+  $('#askSub').textContent = isAsk
+    ? (viewer ? state.sender + ' আপনাকে একটি প্রশ্ন করেছেন' : state.sender + '-এর একটি প্রশ্ন')
+    : (viewer ? state.sender + ' আপনার জন্য একটি উপহার পাঠিয়েছে' : state.sender + '-এর পাঠানো সারপ্রাইজ');
+  $('#askBanner').hidden = viewer;
+  $('#askNav').hidden = viewer;
+}
+
+$('#toAsk').addEventListener('click', () => { fillAsk(); show('s-ask'); });
+
+$('#noBtn').addEventListener('click', () => {
+  noCount++;
+  const no = $('#noBtn'), yes = $('#yesBtn');
+  if (noCount >= NO_TEXT.length) {
+    no.hidden = true;
+    yes.style.transform = 'scale(1.25)';
+    toast('উত্তর তো একটাই বাকি ❤');
+    yes.focus();
+    return;
+  }
+  no.textContent = NO_TEXT[noCount];
+  const dx = (Math.random() * 2 - 1) * 60, dy = (Math.random() * 2 - 1) * 24;
+  no.style.transform = 'translate(' + dx.toFixed(0) + 'px,' + dy.toFixed(0) + 'px)';
+  yes.style.transform = 'scale(' + (1 + noCount * 0.07).toFixed(2) + ')';
+});
+
+$('#yesBtn').addEventListener('click', () => {
+  const occ = OCCASIONS[state.o];
+  $('#t-surprise').textContent = occ.ask ? (occ.yes ? occ.yes(state.receiver) : state.receiver + ' রাজি!') : occ.title(state.receiver);
+  $('#surpriseSub').textContent = occ.ask ? 'এখন ' + state.sender + '-এর মুখে হাসি।' : state.sender + '-এর পক্ষ থেকে ভালোবাসা ও শুভকামনা।';
+  $('#surpriseIcon').textContent = occ.ask ? '💖' : occ.icon;
+  show('s-surprise');
+  celebrate();
+});
+
+$('#toFinal').addEventListener('click', () => {
+  $('#finAvatar').src = avatarSrc();
+  $('#t-final').textContent = state.receiver + '-এর জন্য';
+  $('#finMessage').textContent = state.message;
+  $('#finSig').textContent = '— ' + state.sender;
+  const create = state.mode === 'create';
+  $('#creatorPanel').hidden = !create;
+  $('#viewerPanel').hidden = create;
+  const kinds = Object.keys(SOCIAL).filter(k => state.social[k]);
+  $('#contactBox').hidden = !state.phone && kinds.length === 0;
+  $('#callBtn').parentElement.hidden = !state.phone;
+  $('#finPhone').hidden = !state.phone;
+  const sr = $('#socialRow');
+  sr.textContent = '';
+  $('#socialLabel').hidden = kinds.length === 0;
+  kinds.forEach(k => {
+    const a = document.createElement('a');
+    a.className = 'btn ghost';
+    a.textContent = SOCIAL_ICON[k] + ' ' + SOCIAL[k];
+    a.href = socialUrl(k, state.social[k]);
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    sr.appendChild(a);
+  });
+  if (state.phone) {
+    $('#finPhone').textContent = state.phone;
+    $('#callBtn').href = 'tel:' + state.phone;
+    $('#waChat').href = 'https://wa.me/' + state.phone.replace(/\D/g, '');
+  }
+  show('s-final');
+});
+
+/* ---------- Surprise effects ---------- */
+function celebrate() {
+  if (reduceMotion) return;
+  const mixed = ['🌹', '❤', '💖', '🌸', '💕'];
+  const glyphs = state.effect === 'roses' ? ['🌹', '🌸']
+    : state.effect === 'hearts' ? ['❤', '💖', '💗', '💕']
+    : state.effect === 'auto' ? (OCCASIONS[state.o].glyphs || mixed)
+    : mixed;
+  const nodes = [];
+  for (let i = 0; i < 28; i++) {
+    const n = document.createElement('span');
+    n.className = 'fall';
+    n.textContent = glyphs[i % glyphs.length];
+    n.setAttribute('aria-hidden', 'true');
+    n.style.setProperty('--x', Math.random() * 100 + 'vw');
+    n.style.setProperty('--s', 18 + Math.random() * 22 + 'px');
+    n.style.setProperty('--d', 3.5 + Math.random() * 3 + 's');
+    n.style.setProperty('--delay', Math.random() * 1.8 + 's');
+    n.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+    n.style.setProperty('--r', (Math.random() * 540 - 270) + 'deg');
+    document.body.appendChild(n);
+    nodes.push(n);
+  }
+  setTimeout(() => nodes.forEach(n => n.remove()), 8500);
+}
+
+/* ---------- Compact binary helpers (keep share links short) ---------- */
+function b64uToBytes(str) {
+  const b64 = str.replace(/-/g, '+').replace(/_/g, '/');
+  const bin = atob(b64 + '==='.slice((b64.length + 3) % 4));
+  return Uint8Array.from(bin, c => c.charCodeAt(0));
+}
+function bytesToBin(bytes) {
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return bin;
+}
+function bytesToB64u(bytes) {
+  return btoa(bytesToBin(bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+// Removes metadata segments (ICC colour profile, EXIF, comments) from a JPEG data URL.
+// The profile alone can add several KB to every share link.
+function cleanJpeg(url) {
+  const src = b64uToBytes(url.slice(url.indexOf(',') + 1).replace(/\+/g, '-').replace(/\//g, '_'));
+  if (src[0] !== 0xFF || src[1] !== 0xD8) return url;
+  const out = [0xFF, 0xD8];
+  let i = 2;
+  while (i + 3 < src.length && src[i] === 0xFF) {
+    const marker = src[i + 1];
+    if (marker === 0xDA) break;
+    const len = (src[i + 2] << 8) | src[i + 3];
+    const drop = (marker >= 0xE1 && marker <= 0xEF) || marker === 0xFE;
+    if (!drop) for (let j = i; j < i + 2 + len; j++) out.push(src[j]);
+    i += 2 + len;
+  }
+  for (let j = i; j < src.length; j++) out.push(src[j]);
+  return 'data:image/jpeg;base64,' + btoa(bytesToBin(out));
+}
+function decodeV2(str) {
+  const parts = str.split('.');
+  const d = JSON.parse(new TextDecoder().decode(b64uToBytes(parts[0])));
+  if (parts[1]) {
+    const bytes = b64uToBytes(parts[1]);
+    if (bytes.length < 100 || bytes.length > 45000 || bytes[0] !== 0xFF || bytes[1] !== 0xD8) throw new Error('bad photo');
+    d.p = 'data:image/jpeg;base64,' + btoa(bytesToBin(bytes));
+  }
+  return d;
+}
+
+/* ---------- Share link (data lives inside the URL hash) ---------- */
+function encode(obj) {
+  const bytes = new TextEncoder().encode(JSON.stringify(obj));
+  let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function decode(str) {
+  const b64 = str.replace(/-/g, '+').replace(/_/g, '/');
+  const bin = atob(b64 + '==='.slice((b64.length + 3) % 4));
+  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+function makeLink() {
+  const data = { s: state.sender, r: state.receiver, m: state.message, o: state.o, e: state.effect };
+  if (state.phone) data.c = state.phone;
+  Object.keys(SOCIAL).forEach(k => { if (state.social[k]) data[k] = state.social[k]; });
+  let tail = '';
+  if (state.photo) tail = '.' + state.photo.slice(state.photo.indexOf(',') + 1).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return location.origin + location.pathname + location.search + '#x=' + encode(data) + tail;
+}
+function validShared(d) {
+  const str = (v, max) => typeof v === 'string' && v.trim().length > 0 && v.length <= max;
+  if (!d || typeof d !== 'object') return false;
+  if (!str(d.s, 30) || !str(d.r, 30) || !str(d.m, 300)) return false;
+  if (d.o !== undefined) {
+    if (!Number.isInteger(d.o) || d.o < 0 || d.o >= OCCASIONS.length) return false;
+  } else if (!Number.isInteger(d.q) || d.q < 0 || d.q >= LEGACY_Q.length) return false;
+  if (!EFFECTS.includes(d.e)) return false;
+  if (d.c !== undefined && !(typeof d.c === 'string' && PHONE_RE.test(d.c))) return false;
+  for (const k of Object.keys(SOCIAL)) {
+    if (d[k] !== undefined && !(typeof d[k] === 'string' && USER_RE.test(d[k]))) return false;
+  }
+  if (d.p !== undefined && !(typeof d.p === 'string' && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]{20,60000}$/.test(d.p))) return false;
+  return true;
+}
+
+let currentLink = '';
+function buildShare() {
+  currentLink = makeLink();
+  $('#linkBox').textContent = currentLink;
+  $('#shareName').textContent = state.receiver;
+  $('#fileWarn').hidden = location.protocol !== 'file:';
+}
+$('#copyBtn').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(currentLink);
+    toast('লিঙ্ক কপি হয়েছে');
+  } catch (_) {
+    const ta = document.createElement('textarea');
+    ta.value = currentLink; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (_) {}
+    ta.remove();
+    toast(ok ? 'লিঙ্ক কপি হয়েছে' : 'লিঙ্কটি চেপে ধরে কপি করুন');
+  }
+});
+const shareText = () => state.sender + ' আপনার জন্য একটি উইশ বানিয়েছে ❤';
+$('#waBtn').addEventListener('click', () => {
+  window.open('https://wa.me/?text=' + encodeURIComponent(shareText() + '\n' + currentLink), '_blank', 'noopener');
+});
+$('#tgBtn').addEventListener('click', () => {
+  window.open('https://t.me/share/url?url=' + encodeURIComponent(currentLink) + '&text=' + encodeURIComponent(shareText()), '_blank', 'noopener');
+});
+
+/* ---------- Viewer / creator start ---------- */
+function startCreate() {
+  history.replaceState(null, '', location.pathname + location.search);
+  state.mode = 'create';
+  show('s-home');
+}
+$('#startBtn').addEventListener('click', () => show('s-form'));
+$('#makeOwn').addEventListener('click', startCreate);
+$('#errHome').addEventListener('click', startCreate);
+
+function route() {
+  const h = location.hash;
+  if (!h.startsWith('#w=') && !h.startsWith('#x=')) { state.mode = 'create'; show('s-home'); return; }
+  try {
+    const d = h.startsWith('#x=') ? decodeV2(h.slice(3)) : decode(h.slice(3));
+    if (!validShared(d)) throw new Error('invalid');
+    Object.assign(state, { mode: 'view', sender: d.s.trim(), phone: d.c || '', social: { fb: d.fb || '', ms: d.ms || '', tt: d.tt || '' }, receiver: d.r.trim(), message: d.m.trim(), o: d.o !== undefined ? d.o : LEGACY_Q[d.q], effect: d.e, photo: d.p || null });
+    fillAsk();
+    show('s-ask');
+  } catch (_) {
+    state.mode = 'view';
+    show('s-error');
+  }
+}
+window.addEventListener('hashchange', route);
+route();
+})();
+</script>
+</body>
+</html>
